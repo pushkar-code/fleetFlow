@@ -1,9 +1,9 @@
-import React, { InputHTMLAttributes } from 'react';
+import { type InputHTMLAttributes, type ReactNode } from 'react';
 
 interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
     error?: string;
-    icon?: React.ReactNode;
+    icon?: ReactNode;
 }
 
 export function FormInput({ label, error, icon, className = '', id, ...props }: FormInputProps) {
@@ -41,7 +41,7 @@ export function FormInput({ label, error, icon, className = '', id, ...props }: 
                     id={inputId}
                     {...props}
                     style={{
-                        ...props.style,
+                        ...(props.style as React.CSSProperties),
                         paddingLeft: icon ? '2.5rem' : '1rem',
                         borderColor: error ? 'var(--danger)' : undefined
                     }}

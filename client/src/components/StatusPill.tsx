@@ -1,4 +1,3 @@
-import React from 'react';
 import './StatusPill.css';
 
 export type StatusType =

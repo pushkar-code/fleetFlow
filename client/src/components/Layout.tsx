@@ -1,12 +1,17 @@
-import React, { ReactNode } from 'react';
-import { LayoutDashboard, Truck, Users, Settings, LogOut, Navigation } from 'lucide-react';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { LayoutDashboard, Truck, Users, Settings, LogOut, Navigation, Send, Activity, PieChart } from 'lucide-react';
 import './Layout.css';
 
-interface LayoutProps {
-    children: ReactNode;
-}
+// We import the pages
+import { Dashboard } from '../pages/Dashboard';
+import { Vehicles } from '../pages/Vehicles';
+import { Dispatch } from '../pages/Dispatch';
+import { Logs } from '../pages/Logs';
+import { Analytics } from '../pages/Analytics';
 
-export function Layout({ children }: LayoutProps) {
+export function Layout() {
+    const location = useLocation();
+
     return (
         <div className="layout-container">
             {/* Sidebar Navigation */}
@@ -17,14 +22,27 @@ export function Layout({ children }: LayoutProps) {
                 </div>
 
                 <nav className="sidebar-nav">
-                    <a href="#" className="nav-item active">
+                    <Link to="/dashboard" className={`nav-item ${location.pathname === '/dashboard' ? 'active' : ''}`}>
                         <LayoutDashboard size={20} />
                         <span>Command Center</span>
-                    </a>
-                    <a href="#" className="nav-item">
+                    </Link>
+                    <Link to="/dispatch" className={`nav-item ${location.pathname === '/dispatch' ? 'active' : ''}`}>
+                        <Send size={20} />
+                        <span>Dispatch</span>
+                    </Link>
+                    <Link to="/vehicles" className={`nav-item ${location.pathname === '/vehicles' ? 'active' : ''}`}>
                         <Truck size={20} />
                         <span>Vehicles</span>
-                    </a>
+                    </Link>
+                    <Link to="/logs" className={`nav-item ${location.pathname === '/logs' ? 'active' : ''}`}>
+                        <Activity size={20} />
+                        <span>Maintenance & Logs</span>
+                    </Link>
+                    <Link to="/analytics" className={`nav-item ${location.pathname === '/analytics' ? 'active' : ''}`}>
+                        <PieChart size={20} />
+                        <span>Analytics</span>
+                    </Link>
+
                     <a href="#" className="nav-item">
                         <Users size={20} />
                         <span>Drivers</span>
@@ -36,10 +54,10 @@ export function Layout({ children }: LayoutProps) {
                 </nav>
 
                 <div className="sidebar-footer">
-                    <button className="nav-item logout-btn">
+                    <Link to="/" className="nav-item logout-btn">
                         <LogOut size={20} />
                         <span>Logout</span>
-                    </button>
+                    </Link>
                 </div>
             </aside>
 
@@ -53,7 +71,15 @@ export function Layout({ children }: LayoutProps) {
                 </header>
 
                 <div className="content-area animate-fade-in">
-                    {children}
+                    <Routes>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/dispatch" element={<Dispatch />} />
+                        <Route path="/vehicles" element={<Vehicles />} />
+                        <Route path="/logs" element={<Logs />} />
+                        <Route path="/analytics" element={<Analytics />} />
+                        {/* Future placeholders */}
+                        <Route path="*" element={<h2>🚧 Under Construction</h2>} />
+                    </Routes>
                 </div>
             </main>
         </div>
